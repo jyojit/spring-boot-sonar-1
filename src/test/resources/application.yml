@@ -1,0 +1,2 @@
+spring.application.name: spring-boot-sonar
+management.endpoints.web.exposure.include: '*'
