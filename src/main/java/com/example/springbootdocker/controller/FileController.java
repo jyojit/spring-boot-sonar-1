@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FileController {
 
-	FileController fileController = null;
+	private static class Holder {
+		private static final FileController INSTANCE = new FileController();
+	}
 
 	@GetMapping("/readfile")
 	public void readFile() throws IOException {
@@ -20,10 +22,6 @@ public class FileController {
 			System.out.print((char) data);
 			data = fis.read();
 		}
-	}
-
-	private static class Holder {
-		private static final FileController INSTANCE = new FileController();
 	}
 
 	@GetMapping("/doublelocking")
