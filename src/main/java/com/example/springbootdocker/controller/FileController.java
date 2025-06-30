@@ -22,17 +22,13 @@ public class FileController {
 		}
 	}
 
-	@GetMapping("/doublelocking")
-	public FileController doubleLocking() throws IOException {
-		if (fileController == null) {
-			synchronized (FileController.class) {
-				if (fileController == null) {
-					fileController = new FileController();
-				}
-			}
-		}
+	private static class Holder {
+		private static final FileController INSTANCE = new FileController();
+	}
 
-		return fileController;
+	@GetMapping("/doublelocking")
+	public static FileController doubleLocking() {
+		return Holder.INSTANCE;
 	}
 
 }
