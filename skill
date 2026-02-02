@@ -49,3 +49,25 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }
+
+@SpringBootTest
+@AutoConfigureMockMvc
+class UserControllerTest {
+    
+    @Autowired
+    private MockMvc mockMvc;
+    
+    @MockBean
+    private UserService userService;
+    
+    @Test
+    void getUserById_ShouldReturnUser() throws Exception {
+        UserDTO user = new UserDTO(1L, "John Doe", "john@example.com");
+        when(userService.findById(1L)).thenReturn(user);
+        
+        mockMvc.perform(get("/api/v1/users/1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.name").value("John Doe"));
+    }
+}
+
