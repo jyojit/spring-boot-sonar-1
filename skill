@@ -34,6 +34,30 @@ public class UserController {
     }
 }
 
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class UserService {
+    
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    
+    @Transactional(readOnly = true)
+    public UserDTO findById(Long id) {
+        return userRepository.findById(id)
+            .map(userMapper::toDTO)
+            .orElseThrow(() -> new UserNotFoundException(id));
+    }
+    
+    @Transactional
+    public UserDTO create(CreateUserRequest request) {
+        User user = userMapper.toEntity(request);
+        User saved = userRepository.save(user);
+        return userMapper.toDTO(saved);
+    }
+}
+
+
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
