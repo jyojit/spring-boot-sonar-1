@@ -1,0 +1,35 @@
+# Spring Boot REST API Skill
+
+## Purpose
+Best practices for creating production-ready Spring Boot REST APIs
+
+## When to Use
+- Creating new REST endpoints
+- Building CRUD operations
+- Setting up new Spring Boot services
+
+## Best Practices
+
+### 1. Controller Pattern
+```java
+@RestController
+@RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
+@Slf4j
+public class UserController {
+    
+    private final UserService userService;
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
+        log.info("Fetching user with id: {}", id);
+        return ResponseEntity.ok(userService.findById(id));
+    }
+    
+    @PostMapping
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody CreateUserRequest request) {
+        log.info("Creating new user: {}", request.email());
+        UserDTO created = userService.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+}
