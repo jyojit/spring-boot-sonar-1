@@ -1,0 +1,19 @@
+Based on the video "Spec Kit: Github's NEW tool That FINALLY Fixes AI Coding", here is a summary and the formatted captions extracted from the transcript.
+Video Summary
+This video introduces Spec Kit, an open-source toolkit by GitHub that implements Spec-Driven Development (SDD). The tool aims to fix common issues with AI coding (often called "vibe coding") by providing a structured, verifiable workflow. It guides developers through four distinct phases: Specify, Plan, Tasks, and Implement, ensuring that AI coding agents have clear instructions and constraints at every step.
+Video Captions
+• [00:00] Think about the last time you asked an AI tool to write code; it probably gave you something that looked correct but didn't quite work.
+• [00:13] This is most likely because of a lack of specification clarity, which is where spec-driven development comes to the rescue.
+• [00:21] GitHub just released a new open-source toolkit called Spec Kit, which completely changes the game.
+• [00:44] In traditional development, you write code then document it. In spec-driven development, you write a specification first as a living executable artifact.
+• [01:08] The main idea is that language models are great at patterns but not great at reading your mind.
+• [01:43] Spec Kit features a CLI tool, templates, and steering prompts designed to work with GitHub Copilot, Claude Code, and Gemini.
+• [02:09] Spec Kit organizes development into four gated phases: Specify, Plan, Tasks, and Implement.
+• [03:16] This toolkit was born out of frustration with coding models behaving like search engines instead of literal-minded pair programmers.
+• [03:43] To start, you just need to run a command in your terminal specifying your project name and choosing an agentic framework.
+• [04:20] You begin the project by typing specify followed by an overall description of your project goal and features.
+• [05:49] Next is the Plan phase, where you concretely describe the tech stack and architectural constraints.
+• [06:30] The tool generates a research document explaining the rationale behind choosing specific frameworks.
+• [07:05] Then you move to the Task execution phase to create an MVP version of your project with a detailed, numbered task list.
+• [07:54] Using the implement command followed by task numbers tells the model exactly what to execute next.
+• [09:11] This meticulous approach helps improve the AI model's ability to craft cleaner, more refined code with more precision.
