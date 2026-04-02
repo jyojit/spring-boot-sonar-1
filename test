@@ -37,3 +37,12 @@ public class ObservationUtils {
         });
     }
 }
+public Order processOrder(String orderId, String orderType) {
+    return observationUtils.observe(
+            "order.process",
+            Map.of("type", orderType),
+            Map.of("order.id", orderId),
+            () -> fetchAndProcess(orderId)
+    );
+}
+
