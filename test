@@ -1,0 +1,39 @@
+@Component
+@RequiredArgsConstructor
+public class ObservationUtils {
+
+    private final ObservationRegistry observationRegistry;
+    private final MeterRegistry meterRegistry;
+
+    public <T> T observe(String metricName,
+                         Map<String, String> tags,        // low cardinality
+                         Map<String, String> spanTags,    // high cardinality
+                         Supplier<T> task) {
+
+        Observation observation = Observation
+                .createNotStarted(metricName, observationRegistry);
+
+        tags.forEach(observation::lowCardinalityKeyValue);
+        spanTags.forEach(observation::highCardinalityKeyValue);
+
+        LongTaskTimer longTaskTimer = LongTaskTimer
+                .builder(metricName + ".active")
+                .tags(tags.entrySet().stream()
+                        .map(e -> Tag.of(e.getKey(), e.getValue()))
+                        .collect(Collectors.toList()))
+                .register(meterRegistry);
+
+        observation.start();
+        return longTaskTimer.record(() -> {
+            try (Observation.Scope scope = observation.openScope()) {
+                return task.get();
+            } catch (Exception e) {
+                observation.error(e);
+                observation.lowCardinalityKeyValue("error", e.getClass().getSimpleName());
+                throw e;
+            } finally {
+                observation.stop();
+            }
+        });
+    }
+}
